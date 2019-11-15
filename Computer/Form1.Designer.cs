@@ -151,7 +151,6 @@
             // 
             // button11
             // 
-            this.button11.Enabled = false;
             this.button11.Location = new System.Drawing.Point(94, 164);
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(35, 25);
@@ -230,6 +229,7 @@
             this.textBox1.TabIndex = 17;
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.textBox1.TextChanged += new System.EventHandler(this.TextBox1_TextChanged);
+            this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox1_KeyPress);
             // 
             // textBox2
             // 

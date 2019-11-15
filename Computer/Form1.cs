@@ -95,21 +95,28 @@ namespace Computer
         {
             Button b = sender as Button;
             textBox1.Text += b.Text;
+            
         }
 
         private void Button11_Click(object sender, EventArgs e)
         {
             Button b = sender as Button;
-            textBox1.Text += b.Text;
+            if (textBox1.Text.ToString().IndexOf(".") == -1)
+            {
+                textBox1.Text += b.Text;
+            }
+            else
+            {
+                
+            }
         }
 
         // =
         Double c = 0;
-        int x = 1;
         private void Button17_Click(object sender, EventArgs e)
         {
             Double a = Double.Parse(aa);
-            Double b = Int32.Parse(textBox1.Text);
+            Double b = Double.Parse(textBox1.Text);
             //Double c = 0;
             if (c == 0)
             {
@@ -161,8 +168,9 @@ namespace Computer
         // +-*/途中計算用
         private void Pro()
         {
+            
             Double a = Double.Parse(aa);
-            Double b = Int32.Parse(textBox1.Text);
+            Double b = Double.Parse(textBox1.Text);
             if(c == 0)
             {
 
@@ -250,7 +258,10 @@ namespace Computer
             textBox1.Text = "";
             
         }
-        
-        
+
+        private void TextBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            
+        }
     }
 }
