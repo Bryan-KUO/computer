@@ -7,8 +7,9 @@ namespace Computer
     public partial class Form1 : Form
     {
         string[] m = new string[999];
-        int aa,bb,cc = 0;
-        int i = 0;
+        double oneNum,twoNum,ansNum = 0;
+        int counter = 0;
+        bool first,keepGoing = true;
 
         public Form1()
         {
@@ -20,26 +21,33 @@ namespace Computer
             textBox1.BackColor = Color.White;
         }
         //清除建AC
-        private void Button12_Click(object sender, EventArgs e)
+        private void AC_Click(object sender, EventArgs e)
         {
             textBox1.Text = "";
-            aa = 0;
-            bb = 0;
-            cc = 0;
-            i = 0;
-            textBox2.Text = "aa=" + aa + "\r\nbb=" + bb + "\r\ncc=" + cc + "\r\nm=" + m + "\r\ni=" + i;
+            oneNum = 0;
+            twoNum = 0;
+            ansNum = 0;
+            int i = counter;
+            for(counter = 0; counter < i; counter++)
+            {
+                m[counter] = "";
+            }
+            counter = 0;
+
+            first = true;
+            textBox2.Text = "oneNum=" + oneNum + "\r\ntwoNum=" + twoNum + "\r\nansNum=" + ansNum + "\r\nm=" + m[counter] + "\r\ncounter=" + counter;
         }
         //數字鍵
-        private void Button1_Click(object sender, EventArgs e)
+        private void Number_Click(object sender, EventArgs e)
         {
             Button b = sender as Button;
             textBox1.Text += b.Text;
-            bb = Int32.Parse(textBox1.Text);
-            textBox2.Text = "aa=" + aa + "\r\nbb=" + bb + "\r\ncc=" + cc + "\r\nm=" + m + "\r\ni=" + i;
+            twoNum = double.Parse(textBox1.Text);
+            textBox2.Text = "oneNum=" + oneNum + "\r\ntwoNum=" + twoNum + "\r\nansNum=" + ansNum + "\r\nm=" + "輸入數字中..." + "\r\ncounter=" + counter;
 
         }
         // 小數點
-        private void Button11_Click(object sender, EventArgs e)
+        private void Point_Click(object sender, EventArgs e)
         {
             Button b = sender as Button;
             if (textBox1.Text.ToString().IndexOf(".") == -1)
@@ -47,92 +55,86 @@ namespace Computer
                 textBox1.Text += b.Text;
             }
         }
-
-        // =鍵 途中之計算
-        private void Button17_Click(object sender, EventArgs e)
+        // =按鍵
+        private void Equal_Click(object sender, EventArgs e)
         {
-
+            Button mb = sender as Button;
+            m[counter] = mb.Text;
+            
+            Pro();
+            counter--;
+            textBox1.Text = ansNum.ToString();
+            keepGoing = false;
         }
-        // +-*/鍵
-        private void Button13_Click(object sender, EventArgs e)
+
+        // +-*/按鍵
+        private void Symbol_Click(object sender, EventArgs e)
         {
             Button mb = sender as Button;  
-            m[i] = mb.Text;
-            //Button17_Click(sender, e);
-            Pro();
-            
-            textBox2.Text = "aa=" + aa + "\r\nbb=" + bb + "\r\ncc=" + cc + "\r\nm=" + m + "\r\ni=" + i;
-        }
-        private void Pro()
-        {
-            if (cc == 0 && i <= 1)
+            m[counter] = mb.Text;
+            if(oneNum == 0)
             {
-                if (i == 0)
-                {
-                    aa = bb;
-                    bb = 0;
-                    textBox1.Text = "";
-                }
-                if (i == 1)
-                {
-                    switch (m[i - 1])
-                    {
-                        case "+":
-                            cc = aa + bb;
-                            break;
-                        case "-":
-                            cc = aa - bb;
-                            break;
-                        case "*":
-                            cc = aa * bb;
-                            break;
-                        case "/":
-                            cc = aa / bb;
-                            break;
-                    }
-                    textBox1.Text = cc.ToString();
-                }
+                oneNum = twoNum;
+                twoNum = 0;
+                counter++;
+                first = true;
+            }
+            else if (keepGoing == false)
+            {
+                counter++;
             }
             else
             {
-                switch (m[i - 1])
+                Pro();
+            }
+            keepGoing = true;
+            textBox1.Text = "";
+            textBox2.Text = "oneNum=" + oneNum + "\r\ntwoNum=" + twoNum + "\r\nansNum=" + ansNum + "\r\nm=" + m[counter-1] + "\r\ncounter=" + counter;
+        }
+        //計算
+        private void Pro()
+        {
+            if (first == true)
+            {
+                switch (m[counter-1])
                 {
                     case "+":
-                        cc += bb;
+                        ansNum = oneNum + twoNum;
                         break;
                     case "-":
-                        cc -= bb;
+                        ansNum = oneNum - twoNum;
                         break;
                     case "*":
-                        cc *= bb;
+                        ansNum = oneNum * twoNum;
                         break;
                     case "/":
-                        cc /= bb;
-                        break;
-                    case "=":
-                        switch (m[i-2])
-                        {
-                            case "+":
-                                cc += bb;
-                                break;
-                            case "-":
-                                cc -= bb;
-                                break;
-                            case "*":
-                                cc *= bb;
-                                break;
-                            case "/":
-                                cc /= bb;
-                                break;
-                        }
-                        i--;
+                        ansNum = oneNum / twoNum;
                         break;
                 }
-                textBox1.Text = cc.ToString();
+                textBox1.Text = "";
+                first = false;
             }
-            i++;
-            //textBox1.Text = cc.ToString();
-            textBox2.Text = "aa=" + aa + "\r\nbb=" + bb + "\r\ncc=" + cc + "\r\nm=" + m[i] + "\r\ni=" + i;
+            else
+            {
+                switch (m[counter-1])
+                {
+                    case "+":
+                        ansNum += twoNum;
+                        break;
+                    case "-":
+                        ansNum -= twoNum;
+                        break;
+                    case "*":
+                        ansNum *= twoNum;
+                        break;
+                    case "/":
+                        ansNum /= twoNum;
+                        break;
+                }
+                textBox1.Text = ansNum.ToString();
+            }
+            counter ++;
+            textBox2.Text = "oneNum=" + oneNum + "\r\ntwoNum=" + twoNum + "\r\nansNum=" + ansNum + "\r\nm=" + m[counter-2] + "\r\ncounter=" + counter;
         }
     }
 }
